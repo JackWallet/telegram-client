@@ -1,6 +1,8 @@
 import logging
 import asyncio
 from aiogram import Bot
+from root.schema import Config
+from root.config import get_config
 from root.dispatcher import get_dispatcher
 
 
@@ -11,8 +13,10 @@ logger = logging.getLogger(__name__)
 
 
 async def main() -> None:
-    bot = Bot(token="")
+    config: Config = get_config()
+    bot = Bot(**config.model_dump())
     dispatcher = get_dispatcher()
+    
     await dispatcher.start_polling(bot) # type: ignore
 
 if __name__ == "__main__":
